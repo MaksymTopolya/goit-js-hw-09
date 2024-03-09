@@ -70,19 +70,24 @@ const images = [
     description: 'Lighthouse Coast Sea',
   },
 ];
+const list = document.querySelector(".gallery");
 
-const list = document.querySelector(".gallery")
+const imageHTML = images
+  .map(({ preview, original, description }) => {
+    return `
+      <li class="gallery-item">
+        <a class="gallery-link" href="${original}">
+          <img 
+            class="gallery-image" 
+            src="${preview}" 
+            alt="${description}"
+          />
+        </a>
+      </li>`;
+  })
+  .join("");
 
-const image = images.map(({ preview, original, description }) => {
-   return `<li class="gallery-item">
-	<a class="gallery-link" href=${original}>
-		<img 
-			class="gallery-image" 
-			src=${preview} 
-			alt=${description}
-			/>
-	</a>
-</li>`
-}).join("")
+list.innerHTML = imageHTML;
 
-list.innerHTML = image
+
+const lightbox = new SimpleLightbox('.gallery-link');

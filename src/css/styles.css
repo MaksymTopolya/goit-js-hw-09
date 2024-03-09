@@ -11,3 +11,9 @@
 .gallery-image{
     width: 500px;
 }
+
+.div{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
