@@ -90,4 +90,9 @@ const imageHTML = images
 list.innerHTML = imageHTML;
 
 
-const lightbox = new SimpleLightbox('.gallery-link');
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250, 
+});
+
+

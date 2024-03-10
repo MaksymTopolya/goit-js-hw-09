@@ -1,27 +1,53 @@
-const form = document.querySelector(".feedback-form")
+const form = document.querySelector(".feedback-form");
+const emailInput = form.elements.email;
+const messageInput = form.elements.message;
 
-form.addEventListener("submit", handle)
+form.addEventListener("input", handleInput);
+form.addEventListener("submit", handleSubmit);
 
-function handle(event) {
-    event.preventDefault()
-    let emailValue = event.target.elements.email.value
-    let messageValue = event.target.elements.message.value
+function handleInput(event) {
+    let emailValue = emailInput.value.trim();
+    let messageValue = messageInput.value.trim();
+
+    localStorage.setItem("email", emailValue);
+    localStorage.setItem("message", messageValue);
+}
+
+function handleSubmit(event) {
+    event.preventDefault();
+
+    let emailValue = emailInput.value.trim();
+    let messageValue = messageInput.value.trim();
+
+    if (!emailValue || !messageValue) {
+        alert("Please fill in all form fields.");
+        return;
+    }
 
     let obj = {
         email: emailValue,
-        message: messageValue
-    }
-    
-    let json = JSON.stringify(obj)
-    localStorage.setItem("info", json)
+        message: messageValue,
+    };
+
+    let jsonObj = JSON.stringify(obj);
+
+    console.log(obj);
+
+    form.reset();
+
+    localStorage.removeItem("email");
+    localStorage.removeItem("message");
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    let savedEmail = localStorage.getItem("email");
+    let savedMessage = localStorage.getItem("message");
 
-document.addEventListener("DOMContentLoaded", function() {
-    let saved = localStorage.getItem("info");
-    if (saved) {
-        let parsedSaved = JSON.parse(saved);
-        document.querySelector("[name=email]").value = parsedSaved.email;
-        document.querySelector("[name=message]").value = parsedSaved.message;
+    if (savedEmail) {
+        emailInput.value = savedEmail;
+    }
+
+    if (savedMessage) {
+        messageInput.value = savedMessage;
     }
 });
