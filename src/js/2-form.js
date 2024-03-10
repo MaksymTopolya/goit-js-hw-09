@@ -9,8 +9,14 @@ function handleInput(event) {
     let emailValue = emailInput.value.trim();
     let messageValue = messageInput.value.trim();
 
-    localStorage.setItem("email", emailValue);
-    localStorage.setItem("message", messageValue);
+    let localObj = {
+        email: emailValue,
+        message: messageValue,
+    };
+
+    let localObjJson = JSON.stringify(localObj);
+
+    localStorage.setItem("feedback-form-state", localObjJson);
 }
 
 function handleSubmit(event) {
@@ -29,25 +35,19 @@ function handleSubmit(event) {
         message: messageValue,
     };
 
-    let jsonObj = JSON.stringify(obj);
-
     console.log(obj);
 
     form.reset();
 
-    localStorage.removeItem("email");
-    localStorage.removeItem("message");
+    localStorage.removeItem("feedback-form-state");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    let savedEmail = localStorage.getItem("email");
-    let savedMessage = localStorage.getItem("message");
+    let savedData = localStorage.getItem("feedback-form-state");
 
-    if (savedEmail) {
-        emailInput.value = savedEmail;
-    }
-
-    if (savedMessage) {
-        messageInput.value = savedMessage;
+    if (savedData) {
+        let parsedData = JSON.parse(savedData); // Перетворюємо JSON у об'єкт
+        emailInput.value = parsedData.email;
+        messageInput.value = parsedData.message;
     }
 });
